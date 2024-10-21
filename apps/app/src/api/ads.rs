@@ -66,43 +66,43 @@ pub async fn init_ads_window<R: Runtime>(
     height: f32,
     override_shown: bool,
 ) -> crate::api::Result<()> {
-    use tauri::WebviewUrl;
-    const LINK_SCRIPT: &str = include_str!("ads-init.js");
+    // use tauri::WebviewUrl;
+    // const LINK_SCRIPT: &str = include_str!("ads-init.js");
 
-    let state = app.state::<RwLock<AdsState>>();
-    let mut state = state.write().await;
-    state.size = Some(LogicalSize::new(width, height));
-    state.position = Some(LogicalPosition::new(x, y));
+    // let state = app.state::<RwLock<AdsState>>();
+    // let mut state = state.write().await;
+    // state.size = Some(LogicalSize::new(width, height));
+    // state.position = Some(LogicalPosition::new(x, y));
 
-    if override_shown {
-        state.shown = true;
-    }
+    // if override_shown {
+    //     state.shown = true;
+    // }
 
-    if let Some(webview) = app.webviews().get("ads-window") {
-        if state.shown {
-            let _ = webview.set_position(LogicalPosition::new(x, y));
-            let _ = webview.set_size(LogicalSize::new(width, height));
-        }
-    } else if let Some(window) = app.get_window("main") {
-        let _ = window.add_child(
-            tauri::webview::WebviewBuilder::new(
-                "ads-window",
-                WebviewUrl::External(
-                   AD_LINK.parse().unwrap(),
-                ),
-            )
-            .initialization_script(LINK_SCRIPT)
-            .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36")
-            .zoom_hotkeys_enabled(false)
-            .transparent(true),
-            if state.shown {
-                LogicalPosition::new(x, y)
-            } else {
-                LogicalPosition::new(-1000.0, -1000.0)
-            },
-            LogicalSize::new(width, height),
-        );
-    }
+    // if let Some(webview) = app.webviews().get("ads-window") {
+    //     if state.shown {
+    //         let _ = webview.set_position(LogicalPosition::new(x, y));
+    //         let _ = webview.set_size(LogicalSize::new(width, height));
+    //     }
+    // } else if let Some(window) = app.get_window("main") {
+    //     let _ = window.add_child(
+    //         tauri::webview::WebviewBuilder::new(
+    //             "ads-window",
+    //             WebviewUrl::External(
+    //                AD_LINK.parse().unwrap(),
+    //             ),
+    //         )
+    //         .initialization_script(LINK_SCRIPT)
+    //         .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36")
+    //         .zoom_hotkeys_enabled(false)
+    //         .transparent(true),
+    //         if state.shown {
+    //             LogicalPosition::new(x, y)
+    //         } else {
+    //             LogicalPosition::new(-1000.0, -1000.0)
+    //         },
+    //         LogicalSize::new(width, height),
+    //     );
+    // }
 
     Ok(())
 }
